@@ -18,10 +18,10 @@ def fetch_news():
         model = pickle.load(open(r'news_model_pickle.pkl', 'rb'))
 
         scope = ['https://spreadsheets.google.com/feeds']
-        credentials = ServiceAccountCredentials.from_json_keyfile_name('/Users/Leo/Documents/Programming/CONFIG_NOT_SHARED/Custom News Feed-d7876b12a476.json', scope)
+        credentials = ServiceAccountCredentials.from_json_keyfile_name('Custom News Feed-d7876b12a476.json', scope)
         gc = gspread.authorize(credentials)
 
-        ws = gs.open('NewsFeed')
+        ws = gc.open('NewsFeed')
         sh = ws.sheet1
         zd = list(zip(sh.col_values(2), sh.col_values(3), sh.col_values(4)))
         zf = pd.DataFrame(zd, columns=['title', 'urls', 'html'])
