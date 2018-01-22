@@ -2,8 +2,6 @@ from flask import Flask, render_template
 import pandas as pd
 from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.svm import LinearSVC
-import schedule
-import time
 import pickle
 import json
 import gspread
@@ -31,7 +29,6 @@ def display_links():
 #     }
 #     return render_template('display.html', result = test_result)
 def fetch_news():
-
     vect = pickle.load(open(r'news_vect_pickle.pkl', 'rb'))
     model = pickle.load(open(r'news_model_pickle.pkl', 'rb'))
 
@@ -59,13 +56,18 @@ def fetch_news():
     rf = pd.DataFrame(res, columns=['wanted'])
     rez = pd.merge(rf, zf, left_index=True, right_index=True)
 
-    news_str = ''
-    for t, u in zip(rez[rez['wanted'] == 'y']['title'], rez[rez['wanted'] == 'y']['urls']):
-        news_str = news_str + t + '\n' + u + '\n'
+    mask = rez['wanted'] == 'y'
+    yes_df = rez.loc[mask]
+    short_df = yes_df.head()
 
-    payload = {'value1' : news_str}
+    news_dict = {}
+    for t, u in zip(short_df['title'], short_df['urls']):
+        title = t
+        url = u
+        news_dict[t] = u
 
-    return render_template('display.html', result = payload)
+    return render_template('display.html', result=news_dict)
+
 
 
 if __name__ == '__main__':
