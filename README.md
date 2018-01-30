@@ -125,7 +125,3 @@ A flask app was produced that would call a stripped down method of the model and
 ### Email App
 
 A script was written which would gather results in the same was as the Flask app but would send them via IFTTT to a specified email address. This script was then run from an Amazon Web Services server through a cron job which would run once a day. Thus delivering new recommonded stories each day to the users inbox.
-
-## [Code Repo](https://github.com/LEO-E-100/custom_news)
-
-*N.B. Code samples in this post have not been run as they are not complete and would fail. Please see the repo for complete code*
